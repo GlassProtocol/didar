@@ -1,0 +1,15 @@
+syntax = "proto3";
+package didar;
+option go_package = "/;didar";
+
+message key {
+    key_type key_type = 1;
+    string public_key = 2;
+}
+
+enum key_type {
+    UNDEFINED = 0;
+    ETHEREUM = 1;
+    SOLANA = 2;
+    ARWEAVE = 3;
+}

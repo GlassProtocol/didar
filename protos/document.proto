@@ -1,0 +1,14 @@
+syntax = "proto3";
+package didar;
+option go_package = "/;didar";
+
+import "key.proto";
+import "reference.proto";
+
+
+message document {
+    repeated string context = 1;
+    string id = 2;
+    repeated key authentication = 3;
+    reference reference = 4;
+}
