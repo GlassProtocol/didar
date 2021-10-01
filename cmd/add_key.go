@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/GlassProtocol/didar/composer"
@@ -23,7 +24,6 @@ import (
 	"github.com/everFinance/goar/types"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // addKeyCmd represents the addKey command
@@ -37,127 +37,148 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		switch viper.GetString("protocol") {
-		case "solana":
-			newKeys, err := prompter()
-			if err != nil {
-				panic(err)
-			}
-
-			doc, err := composer.Document(viper.GetString("genesis-id"), viper.GetString("previous-id"), newKeys, &pb.Key{
-				KeyType:   pb.KeyType_SOLANA,
-				PublicKey: viper.GetString("public-key"),
-			})
-			if err != nil {
-				panic(err)
-			}
-
-			docSigned, err := composer.SignDocument(doc)
-			if err != nil {
-				panic(err)
-			}
-
-			jsonBytes, err := marshalOptions.Marshal(docSigned)
-			if err != nil {
-				panic(err)
-			}
-
-			id, err := composer.WriteToArweave(jsonBytes, []types.Tag{
-				{
-					Name:  "Content-Type",
-					Value: "application/json",
-				},
-				{
-					Name:  "Genesis-ID",
-					Value: viper.GetString("genesis-id"),
-				},
-				{
-					Name:  "Previous-ID",
-					Value: viper.GetString("previous-id"),
-				},
-				{
-					Name:  "Operation",
-					Value: "ADD_KEY",
-				},
-			})
-			if err != nil {
-				panic(err)
-			}
-
-			fmt.Printf("\nNEW DOC: %s\n", id)
-
-		case "ethereum":
-			newKeys, err := prompter()
-			if err != nil {
-				panic(err)
-			}
-
-			doc, err := composer.Document(viper.GetString("genesis-id"), viper.GetString("previous-id"), newKeys, &pb.Key{
-				KeyType:   pb.KeyType_ETHEREUM,
-				PublicKey: viper.GetString("public-key"),
-			})
-			if err != nil {
-				panic(err)
-			}
-
-			docSigned, err := composer.SignDocument(doc)
-			if err != nil {
-				panic(err)
-			}
-
-			jsonBytes, err := marshalOptions.Marshal(docSigned)
-			if err != nil {
-				panic(err)
-			}
-
-			id, err := composer.WriteToArweave(jsonBytes, []types.Tag{
-				{
-					Name:  "Content-Type",
-					Value: "application/json",
-				},
-				{
-					Name:  "Genesis-ID",
-					Value: viper.GetString("genesis-id"),
-				},
-				{
-					Name:  "Previous-ID",
-					Value: viper.GetString("previous-id"),
-				},
-				{
-					Name:  "Operation",
-					Value: viper.GetString("ADD_KEY"),
-				},
-			})
-			if err != nil {
-				panic(err)
-			}
-
-			fmt.Printf("\nNEW DOC: %s\n", id)
+		signingKey, privateKey, err := promptSigningKeys()
+		if err != nil {
+			panic(err)
 		}
+
+		genID, err := promptGenesisID()
+		if err != nil {
+			panic(err)
+		}
+
+		prevID, err := promptPreviousID()
+		if err != nil {
+			panic(err)
+		}
+
+		newKeys, err := promptNewKeys()
+		if err != nil {
+			panic(err)
+		}
+
+		newKeys = append(newKeys, signingKey)
+
+		doc, err := composer.Document(genID, prevID, newKeys, signingKey)
+		if err != nil {
+			panic(err)
+		}
+
+		docSigned, err := composer.SignDocument(doc, privateKey)
+		if err != nil {
+			panic(err)
+		}
+
+		jsonBytes, err := marshalOptions.Marshal(docSigned)
+		if err != nil {
+			panic(err)
+		}
+
+		id, err := composer.WriteToArweave(jsonBytes, []types.Tag{
+			{
+				Name:  "Content-Type",
+				Value: "application/json",
+			},
+			{
+				Name:  "Genesis-ID",
+				Value: genID,
+			},
+			{
+				Name:  "Previous-ID",
+				Value: prevID,
+			},
+			{
+				Name:  "Operation",
+				Value: "ADD_KEY",
+			},
+		})
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Printf("\nNEW DOC: %s\n", id)
+
 	},
 }
 
 func init() {
 
-	addKeyCmd.PersistentFlags().String("genesis-id", "", "genesis tx arweave id")
-	addKeyCmd.MarkPersistentFlagRequired("genesis-id")
-	viper.BindPFlag("genesis-id", addKeyCmd.PersistentFlags().Lookup("genesis-id"))
-
-	addKeyCmd.PersistentFlags().String("previous-id", "", "the last arweave id for the prior doc")
-	addKeyCmd.MarkPersistentFlagRequired("previous-id")
-	viper.BindPFlag("previous-id", addKeyCmd.PersistentFlags().Lookup("previous-id"))
-
 	rootCmd.AddCommand(addKeyCmd)
 
 }
 
-func prompter() ([]*pb.Key, error) {
+func promptGenesisID() (string, error) {
+	pubKeyPrompt := promptui.Prompt{
+		Label: "Genesis ID",
+	}
+
+	return pubKeyPrompt.Run()
+}
+
+func promptPreviousID() (string, error) {
+	pubKeyPrompt := promptui.Prompt{
+		Label: "Previous ID (Genesis if that was last)",
+	}
+
+	return pubKeyPrompt.Run()
+}
+
+func promptSigningKeys() (*pb.Key, string, error) {
+
+	prompt := promptui.Select{
+		Label: "Select Protocol For Signing Keys (same as genesis)",
+		Items: []string{"Solana", "Ethereum"},
+	}
+
+	_, result, err := prompt.Run()
+	if err != nil {
+		return nil, "", err
+	}
+
+	pubKeyPrompt := promptui.Prompt{
+		Label: "Public Key",
+	}
+
+	pubKey, err := pubKeyPrompt.Run()
+	if err != nil {
+		return nil, "", err
+	}
+
+	privateKeyPrompt := promptui.Prompt{
+		Label: "Private Key",
+		Mask:  '*',
+	}
+
+	privKey, err := privateKeyPrompt.Run()
+	if err != nil {
+		return nil, "", err
+	}
+
+	switch result {
+	case "Solana":
+		return &pb.Key{
+			PublicKey: pubKey,
+			KeyType:   pb.KeyType_SOLANA,
+		}, privKey, nil
+
+	case "Ethereum":
+		return &pb.Key{
+			PublicKey: pubKey,
+			KeyType:   pb.KeyType_ETHEREUM,
+		}, privKey, nil
+
+	default:
+		return nil, "", errors.New("promptui protocol switch failed")
+	}
+}
+
+func promptNewKeys() ([]*pb.Key, error) {
 
 	newKeys := []*pb.Key{}
 
 	for {
 		prompt := promptui.Select{
-			Label: "Select Operation",
+			Label: "Select Operation (Your signing key has already been added)",
 			Items: []string{"Add Key", "Finalize"},
 		}
 

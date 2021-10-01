@@ -4,15 +4,12 @@ import (
 	"fmt"
 
 	pb "github.com/GlassProtocol/didar/protos/go"
-	"github.com/google/uuid"
 )
 
 func GenesisDoc(key *pb.Key) (*pb.Genesis, error) {
-	genDoc := &pb.Genesis{
-		Nonce:      uuid.New().String(),
+	return &pb.Genesis{
 		SigningKey: key,
-	}
-	return SignGenesis(genDoc)
+	}, nil
 }
 
 func Document(id string, prevDocId string, newKeys []*pb.Key, signingKey *pb.Key) (*pb.Document, error) {

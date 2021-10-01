@@ -44,18 +44,6 @@ func init() {
 	rootCmd.PersistentFlags().String("arweave-key", "", "path to arweave key file")
 	rootCmd.MarkPersistentFlagRequired("arweave-key")
 	viper.BindPFlag("arweave-key", rootCmd.PersistentFlags().Lookup("arweave-key"))
-
-	rootCmd.PersistentFlags().String("protocol", "", "which protocol are we using")
-	rootCmd.MarkPersistentFlagRequired("protocol")
-	viper.BindPFlag("protocol", rootCmd.PersistentFlags().Lookup("protocol"))
-
-	rootCmd.PersistentFlags().String("public-key", "", "pub key")
-	rootCmd.MarkPersistentFlagRequired("public-key")
-	viper.BindPFlag("public-key", rootCmd.PersistentFlags().Lookup("public-key"))
-
-	rootCmd.PersistentFlags().String("private-key", "", "raw text for private key (dangerous change me)")
-	rootCmd.MarkPersistentFlagRequired("private-key")
-	viper.BindPFlag("private-key", rootCmd.PersistentFlags().Lookup("private-key"))
 }
 
 // initConfig reads in config file and ENV variables if set.
