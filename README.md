@@ -135,6 +135,9 @@ The most pressing attack is a DDOS attack. One way to remedy this is to appove c
 As further discussions develop regarding this approach to managing DID's they will be listed here.
 
 
+### Why Protocol Buffers?
+
+The W3C standard requests that JSON-LD be used to define document structures. We are breaking the spec by using protocol buffers. The rationale behind using protocol buffers is that they can be used to generate code in many different languages. Adoption is a serious problem for creating standards. We wanted to simplify the process of adoption by reducing developer work for new language SDK's.
 
 # Command Line Tool
 
