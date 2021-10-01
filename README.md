@@ -62,9 +62,9 @@ Example Genesis JSON:
 
 ```json
 {
-  "signing_key": {
-    "key_type": "ETHEREUM",
-    "public_key": "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
+  "signing_key":  {
+    "key_type":  "ETHEREUM",
+    "public_key":  "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
   }
 }
 ```
@@ -78,27 +78,27 @@ Example DID JSON:
 
 ```json
 {
-  "context": [
+  "context":  [
     "https://www.w3.org/ns/did/v1"
   ],
-  "id": "did:ar:CuckKcJL77TmulQiwNXjb1yFx-c0pFDTjNXFIEsbnmQ",
-  "authentication": [
+  "id":  "did:ar:xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88",
+  "authentication":  [
     {
-      "key_type": "SOLANA",
-      "public_key": "9jiixatNTBsLKAnfiv6BztccKai7UVWoEa1g6hKkWxvP"
+      "key_type":  "SOLANA",
+      "public_key":  "9jiixatNTBsLKAnfiv6BztccKai7UVWoEa1g6hKkWxvP"
     },
     {
-      "key_type": "ETHEREUM",
-      "public_key": "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
+      "key_type":  "ETHEREUM",
+      "public_key":  "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
     }
   ],
-  "reference": {
-    "previous_document_id": "CuckKcJL77TmulQiwNXjb1yFx-c0pFDTjNXFIEsbnmQ",
-    "signing_key": {
-      "key_type": "ETHEREUM",
-      "public_key": "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
+  "reference":  {
+    "previous_document_id":  "xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88",
+    "signing_key":  {
+      "key_type":  "ETHEREUM",
+      "public_key":  "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
     },
-    "signature": "0x077e98d9c08a434d921478dd94a96e4baf6b89eb6757dbe119658ec20c96c15c0b9fc3f0b2ee735b00c58ae08120fc5d86e4e19b93eecd48265012568a983dea01"
+    "signature":  "0xebad66afc2572ad39bee572b222503a8d53a205b33858d8c2f7f274e422033400f093d3b8667974d59fabfd10e65d5a9798f939899900318d43ded18fca2e81d01"
   }
 }
 ```
@@ -110,57 +110,58 @@ The nonce is a random UUID intended to be used ONLY ONCE. The UUID allows us to 
 ## Genesis Tx
 
 ``` bash
-$ go run main.go add-key --arweave-key ark.json
+$ go run main.go add-key --arweave-key YOUR_ARWEAVE_KEY.json
 ```
 
 ## Add Key
 
 ```bash
-$ go run main.go genesis --arweave-key ark.json
+$ go run main.go genesis --arweave-key YOUR_ARWEAVE_KEY.json
 ```
 
 ## Full Example
 
-> did:ar:CuckKcJL77TmulQiwNXjb1yFx-c0pFDTjNXFIEsbnmQ
+> did:ar:xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
 
 ```
-$ go run main.go genesis --arweave-key ark.json
+$ go run main.go genesis --arweave-key YOUR_ARWEAVE_KEY.json
 ✔ Ethereum
 Public Key: 0xAbf798E220c6E44E4F8d720E8095E8dB230E9718
-Tx data size: 0.000112MB 
-uplaodTx; body: OK, status: 200, txId: CuckKcJL77TmulQiwNXjb1yFx-c0pFDTjNXFIEsbnmQ 
+Tx data size: 0.000114MB 
+uplaodTx; body: OK, status: 200, txId: xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88 
 100.000000% completes, 1/1 
 
-GENESIS ID: CuckKcJL77TmulQiwNXjb1yFx-c0pFDTjNXFIEsbnmQ
+GENESIS ID: xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
 
 
-$ go run main.go add-key --arweave-key ark.json
+
+$ go run main.go add-key --arweave-key YOUR_ARWEAVE_KEY.json
 ✔ Ethereum
 Public Key: 0xAbf798E220c6E44E4F8d720E8095E8dB230E9718
 Private Key: ****************************************************************
-Genesis ID: CuckKcJL77TmulQiwNXjb1yFx-c0pFDTjNXFIEsbnmQ
-Previous ID (Genesis if that was last): CuckKcJL77TmulQiwNXjb1yFx-c0pFDTjNXFIEsbnmQ
+Genesis ID: xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
+Previous ID (Genesis if that was last): xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
 ✔ Add Key
 ✔ Solana
 Public Key: 9jiixatNTBsLKAnfiv6BztccKai7UVWoEa1g6hKkWxvP
 ✔ Finalize
-Tx data size: 0.000699MB 
-uplaodTx; body: OK, status: 200, txId: JZtBNRt7a2dzQWiKsgnp6KmqXDgzJAJvEP5KmqeVVy8 
+Tx data size: 0.000711MB 
+uplaodTx; body: OK, status: 200, txId: jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw 
 100.000000% completes, 1/1 
 
-NEW DOC: JZtBNRt7a2dzQWiKsgnp6KmqXDgzJAJvEP5KmqeVVy8
+NEW DOC: jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw
 
 ```
 
-Genesis Data: https://arweave.net/CuckKcJL77TmulQiwNXjb1yFx-c0pFDTjNXFIEsbnmQ
+Genesis Data: https://arweave.net/xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
 
   
-Genesis Explorer: https://viewblock.io/arweave/tx/CuckKcJL77TmulQiwNXjb1yFx-c0pFDTjNXFIEsbnmQ
+Genesis Explorer: https://viewblock.io/arweave/tx/xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
 
 ---
   
 
-DID Doc: https://arweave.net/JZtBNRt7a2dzQWiKsgnp6KmqXDgzJAJvEP5KmqeVVy8
+DID Doc: https://arweave.net/jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw
 
 
-DID Doc Explorer: https://viewblock.io/arweave/tx/JZtBNRt7a2dzQWiKsgnp6KmqXDgzJAJvEP5KmqeVVy8
+DID Doc Explorer: https://viewblock.io/arweave/tx/jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw
