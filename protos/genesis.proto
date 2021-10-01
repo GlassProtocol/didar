@@ -8,5 +8,5 @@ import "key.proto";
 message genesis {
     string nonce = 1;
     key signing_key = 2;
-    string signature = 3;
+    string nonce_signature = 3;
 }

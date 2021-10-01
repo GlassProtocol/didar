@@ -1,0 +1,6 @@
+# Protos
+
+```
+$ go generate
+
+```
