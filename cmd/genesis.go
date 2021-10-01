@@ -96,6 +96,10 @@ var genesisCmd = &cobra.Command{
 					Name:  "Content-Type",
 					Value: "application/json",
 				},
+				{
+					Name:  "Operation",
+					Value: "GENESIS",
+				},
 			})
 			if err != nil {
 				panic(err)

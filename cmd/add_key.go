@@ -77,7 +77,7 @@ to quickly create a Cobra application.`,
 				},
 				{
 					Name:  "Operation",
-					Value: viper.GetString("ADD_KEY"),
+					Value: "ADD_KEY",
 				},
 			})
 			if err != nil {
