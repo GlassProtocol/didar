@@ -28,7 +28,7 @@
 
 # Disclaimer
 
-This code, and concept were incepted in less than 24 hours. There are ALMOST CERTAINLY flaws in the design. Do not adopt this standard until a tagged release. Also please read this document with a critical lense -- the ideas present have not been validated via peer-review. 
+This code and oncept are less than 24 hours old. There are ALMOST CERTAINLY flaws in the design. Do not adopt this standard until a tagged release. Also please read this document with a critical lense -- the ideas present have not been validated via peer-review. 
 
 # Motivation
 
