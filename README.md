@@ -26,6 +26,10 @@
                                                      
 ```
 
+# Disclaimer
+
+This code, and concept were incepted in less than 24 hours. There are ALMOST CERTAINLY flaws in the design. Do not adopt this standard until a tagged release. Also please read this document with a critical lense -- the ideas present have not been validated via peer-review. 
+
 # Motivation
 
 We live in a multi-chain world. That's a fact.
@@ -133,6 +137,13 @@ The most pressing attack is a DDOS attack. One way to remedy this is to appove c
 
 
 As further discussions develop regarding this approach to managing DID's they will be listed here.
+
+
+### Validation
+
+Anyone can validate the append only log by tracing the latest transactions tagged with a given genesis-id (did:ar:THIS_PART). To expedite this process for a consumer platform, it is recommended to index and validate the transactions in a background-process on their own servers.
+
+To be explicity, NO CENTRAL PARTIES ARE RREQUIRED TO VALIDATE. Furthermore, CREATING A DID:AR IS FULLY PERMISSION-LESS ONCE AGAIN NOT REQUIRING CENTRAL SERVERS.
 
 
 ### Why Protocol Buffers?
