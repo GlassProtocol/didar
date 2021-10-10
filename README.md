@@ -26,6 +26,10 @@
                                                      
 ```
 
+# Disclaimer
+
+This code and oncept are less than 24 hours old. There are ALMOST CERTAINLY flaws in the design. Do not adopt this standard until a tagged release. Also please read this document with a critical lense -- the ideas present have not been validated via peer-review. 
+
 # Motivation
 
 We live in a multi-chain world. That's a fact.
@@ -47,18 +51,15 @@ Read More: https://www.w3.org/TR/did-core/
 
 # Technical Discussion
 
-Part of the reason for writing this document was to remove reliance on IPFS. Arweave offers true permanence without the need for centralized pinning services.
+Part of the reason for writing this document was to remove reliance on IPFS. Arweave offers true permanence without the need for coordinated pinning services.
 
-For an IPFS alternative be sure to check out our friends at [Ceramic](https://ceramic.network/). Their standards are FAR MORE developed. 
+For an IPFS alternative that is FAR MORE developed, be sure to check out our friends at [Ceramic](https://ceramic.network/).
 
 ---
 
 ### Genesis Transactions
 
-Every DID requires a uniquely generated ID. We opt to use a small data payload Arweave transaction to initialize an ID. The genesis transaction IS NOT A DID, but rather a precursor. 
-
-
-Example Genesis JSON:
+Every DID requires a uniquely generated ID. We opt to use a small data payload Arweave transaction to initialize an ID. The genesis transaction IS NOT A DID, but rather a precursor. The genesis document looks like such:
 
 ```json
 {
@@ -69,12 +70,23 @@ Example Genesis JSON:
 }
 ```
 
-`CuckKcJL77TmulQiwNXjb1yFx-c0pFDTjNXFIEsbnmQ`
+Arweave ID: `xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88` 
+
+
+**Tags**  
+Content-Type: `application/json`  
+Operation: `GENESIS`  
+
+The genesis document contains the signing key that will be used to initialize the append only log.
+
+
+NOTE: anyone would be able to resubmit this document to arweave. The reason we add the signing key is to stop someone else from signing the genesis document and claiming that person's DID. The second arweave tx (and creation of a DID document) ABSOLUTELY MUST sign their DID document with the key used in the genesis document.
 
 
 
+### DID Document
 
-Example DID JSON:
+To create a DID document, the genesis transaction is referenced in the DID document. The way that we ensure security with updating the document is requiring the previous document's ID and the authentication payload to be cryptographically signed by one of the authorized keys. 
 
 ```json
 {
@@ -103,7 +115,40 @@ Example DID JSON:
 }
 ```
 
-The nonce is a random UUID intended to be used ONLY ONCE. The UUID allows us to verify 
+Arweave ID: `jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw`  
+
+
+**Tags**  
+Content-Type: `application/json`  
+Genesis-ID: `xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88`  
+Previous-ID: `xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88`  
+Operation: `ADD_KEY`  
+
+
+
+The log of updates are then cryptographically linked back to the genesis ID. To reiterate, every new data update must not only sign the new data using an approved key but also MUST sign the reference to the previous entry in the DID log. Following this structure allows us to update a DID to add and delete authorized keys.
+
+This method of cryptographically signing the previous log is not novel, but rather a fundamental primative for most blockchains. 
+
+
+### Potential Attacks
+
+The most pressing attack is a DDOS attack. One way to remedy this is to appove certain arweave addresses to submit transactions on the DID controller's behalf.
+
+
+As further discussions develop regarding this approach to managing DID's they will be listed here.
+
+
+### Validation
+
+Anyone can validate the append only log by tracing the latest transactions tagged with a given genesis-id (did:ar:THIS_PART). To expedite this process for a consumer platform, it is recommended to index and validate the transactions in a background-process on their own servers.
+
+To be explicity, NO CENTRAL PARTIES ARE RREQUIRED TO VALIDATE. Furthermore, CREATING A DID:AR IS FULLY PERMISSION-LESS ONCE AGAIN NOT REQUIRING CENTRAL SERVERS.
+
+
+### Why Protocol Buffers?
+
+The W3C standard requests that JSON-LD be used to define document structures. We are breaking the spec by using protocol buffers. The rationale behind using protocol buffers is that they can be used to generate code in many different languages. Adoption is a serious problem for creating standards. We wanted to simplify the process of adoption by reducing developer work for new language SDK's.
 
 # Command Line Tool
 
@@ -165,3 +210,8 @@ DID Doc: https://arweave.net/jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw
 
 
 DID Doc Explorer: https://viewblock.io/arweave/tx/jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw
+
+
+# Feedback
+
+Please send any feedback to via DM to [@sam_sends](https://twitter.com/intent/follow?screen_name=sam_sends)
