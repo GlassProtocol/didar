@@ -1,0 +1,11 @@
+syntax = "proto3";
+package didar;
+option go_package = "/;didar";
+
+import "profile.proto";
+
+message metadata {
+    oneof data {
+        profile profile = 2;
+    }
+}

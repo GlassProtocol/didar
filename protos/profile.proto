@@ -1,0 +1,23 @@
+syntax = "proto3";
+package didar;
+option go_package = "/;didar";
+
+message profile {
+    string display_name = 1;
+    string biography = 2;
+    image low_res_profile_pictures = 3;
+    image high_res_profile_pictures = 4;
+}
+
+message image {
+    uint32 height = 1;
+    uint32 width = 2;
+    image_type image_type = 3;
+    string source = 4;
+}
+
+enum image_type {
+    JPEG = 0;
+    PNG = 1;
+    GIF = 2;
+}

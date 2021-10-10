@@ -26,6 +26,8 @@ func main() {
 		"genesis.proto",
 		"key.proto",
 		"reference.proto",
+		"metadata.proto",
+		"profile.proto",
 	}
 
 	var out bytes.Buffer
