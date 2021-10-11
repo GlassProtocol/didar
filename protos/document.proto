@@ -11,7 +11,9 @@ import "metadata.proto";
 message document {
     repeated string context = 1;
     string id = 2;
+    
     repeated key authentication = 3;
-    reference reference = 4;
-    repeated metadata metadata = 5;
+    repeated metadata metadata = 4;
+
+    reference reference = 100;
 }
