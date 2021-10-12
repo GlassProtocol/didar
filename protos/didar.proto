@@ -1,0 +1,13 @@
+syntax = "proto3";
+package didar;
+option go_package = "/;didar";
+
+import "document.proto";
+import "reference.proto";
+
+
+message didar {
+    string version = 1; // calendar version
+    document document = 2; // did
+    reference reference = 3; // reference
+}

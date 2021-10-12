@@ -7,9 +7,12 @@ message key {
     string public_key = 2;
 }
 
+// this should really be cryptographic signature types tbh
+
 enum key_type {
     UNDEFINED = 0;
     ETHEREUM = 1;
     SOLANA = 2;
     ARWEAVE = 3;
+    BITCOIN = 4;
 }

@@ -4,16 +4,12 @@ option go_package = "/;didar";
 
 import "key.proto";
 import "reference.proto";
-import "metadata.proto";
 
 
 
 message document {
     repeated string context = 1;
     string id = 2;
-    
     repeated key authentication = 3;
-    repeated metadata metadata = 4;
-
-    reference reference = 100;
+    map<string, string> metadata = 4;
 }
