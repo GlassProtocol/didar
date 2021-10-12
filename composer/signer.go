@@ -29,14 +29,6 @@ func SignDocument(doc *pb.Document, privateKey string) (*pb.Document, error) {
 			data = append(data, tmp...)
 		}
 
-		for _, m := range doc.Metadata {
-			tmp, err := proto.Marshal(m)
-			if err != nil {
-				return nil, err
-			}
-			data = append(data, tmp...)
-		}
-
 		hash := crypto.Keccak256Hash(append(data, []byte(doc.Id)...))
 
 		signature, err := crypto.Sign(hash.Bytes(), pk)
