@@ -74,8 +74,10 @@ Arweave ID: `xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88`
 
 
 **Tags**  
-Content-Type: `application/json`  
-Operation: `GENESIS`  
+Content-Type: `application/json`   
+`0xAbf798E220c6E44E4F8d720E8095E8dB230E9718` : `0xAbf798E220c6E44E4F8d720E8095E8dB230E9718`   
+`TYPE` : `GENESIS`  
+
 
 The genesis document contains the signing key that will be used to initialize the append only log.
 
@@ -122,7 +124,9 @@ Arweave ID: `jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw`
 Content-Type: `application/json`  
 Genesis-ID: `xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88`  
 Previous-ID: `xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88`  
-Operation: `ADD_KEY`  
+`TYPE` : `DID`  
+`9jiixatNTBsLKAnfiv6BztccKai7UVWoEa1g6hKkWxvP` : `9jiixatNTBsLKAnfiv6BztccKai7UVWoEa1g6hKkWxvP`  
+`0xAbf798E220c6E44E4F8d720E8095E8dB230E9718` : `0xAbf798E220c6E44E4F8d720E8095E8dB230E9718`  
 
 
 

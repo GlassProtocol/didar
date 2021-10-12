@@ -72,10 +72,6 @@ to quickly create a Cobra application.`,
 				Name:  "Previous-ID",
 				Value: prevID,
 			},
-			{
-				Name:  "Operation",
-				Value: "ADD_KEY",
-			},
 		})
 		if err != nil {
 			panic(err)
