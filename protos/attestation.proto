@@ -1,0 +1,11 @@
+syntax = "proto3";
+package didar;
+option go_package = "/;didar";
+
+import "key.proto";
+
+message attestation {
+    string appending = 1; // adding to the arweave document
+    key signing_key = 2; // which key is signing
+    string signature = 3; // signatures
+}

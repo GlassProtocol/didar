@@ -3,11 +3,17 @@ package didar;
 option go_package = "/;didar";
 
 import "document.proto";
-import "reference.proto";
+import "attestation.proto";
+import "genesis.proto";
+
 
 
 message didar {
     string version = 1; // calendar version
-    document document = 2; // did
-    reference reference = 3; // reference
+    oneof data {
+        genesis genesis = 2;
+        document_and_attestation document_and_attestation = 3;
+    }
 }
+
+

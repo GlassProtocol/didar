@@ -3,7 +3,7 @@ package didar;
 option go_package = "/;didar";
 
 import "key.proto";
-import "reference.proto";
+import "attestation.proto";
 
 
 
@@ -13,3 +13,8 @@ message document {
     repeated key authentication = 3;
     map<string, string> metadata = 4;
 }
+
+message document_and_attestation {
+    document document = 1; // did
+    attestation attestation = 2; // reference
+} 

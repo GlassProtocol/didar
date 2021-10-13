@@ -44,35 +44,48 @@ to quickly create a Cobra application.`,
 
 		newKeys = append(newKeys, signingKey)
 
-		doc, err := composer.Document(genID, prevID, newKeys, signingKey)
+		doc, err := composer.Didar(genID, prevID, newKeys, signingKey, nil)
 		if err != nil {
 			panic(err)
 		}
 
-		docSigned, err := composer.SignDocument(doc, privateKey)
+		err = composer.SignDocument(doc, privateKey)
 		if err != nil {
 			panic(err)
 		}
 
-		jsonBytes, err := marshalOptions.Marshal(docSigned)
+		jsonBytes, err := marshalOptions.Marshal(doc)
 		if err != nil {
 			panic(err)
 		}
 
-		id, err := composer.WriteToArweave(jsonBytes, []types.Tag{
+		tags := []types.Tag{
 			{
 				Name:  "Content-Type",
 				Value: "application/json",
 			},
 			{
-				Name:  "Genesis-ID",
+				Name:  "Version",
+				Value: composer.VERSION,
+			},
+			{
+				Name:  "ID",
 				Value: genID,
 			},
 			{
-				Name:  "Previous-ID",
+				Name:  "Appending",
 				Value: prevID,
 			},
-		})
+		}
+
+		for _, key := range newKeys {
+			tags = append(tags, types.Tag{
+				Name:  "Address",
+				Value: key.PublicKey,
+			})
+		}
+
+		id, err := composer.WriteToArweave(jsonBytes, tags)
 		if err != nil {
 			panic(err)
 		}

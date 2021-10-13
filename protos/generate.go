@@ -25,7 +25,8 @@ func main() {
 		"document.proto",
 		"genesis.proto",
 		"key.proto",
-		"reference.proto",
+		"attestation.proto",
+		"didar.proto",
 	}
 
 	var out bytes.Buffer

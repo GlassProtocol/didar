@@ -11,58 +11,46 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func SignDocument(doc *pb.Document, privateKey string) (*pb.Document, error) {
-	switch doc.Reference.SigningKey.KeyType {
+func SignDocument(didar *pb.Didar, privateKey string) error {
+
+	documentAndAttestation := didar.GetDocumentAndAttestation()
+
+	data, err := proto.Marshal(documentAndAttestation)
+	if err != nil {
+		return err
+	}
+
+	switch documentAndAttestation.Attestation.SigningKey.KeyType {
 	case pb.KeyType_ETHEREUM:
 		pk, err := crypto.HexToECDSA(privateKey)
 		if err != nil {
-			return nil, err
+			return err
 		}
 
-		data := []byte{}
-
-		for _, x := range doc.Authentication {
-			tmp, err := proto.Marshal(x)
-			if err != nil {
-				return nil, err
-			}
-			data = append(data, tmp...)
-		}
-
-		hash := crypto.Keccak256Hash(append(data, []byte(doc.Id)...))
+		hash := crypto.Keccak256Hash(data)
 
 		signature, err := crypto.Sign(hash.Bytes(), pk)
 		if err != nil {
-			return nil, err
+			return err
 		}
 
 		sig := hexutil.Encode(signature)
 
-		doc.Reference.Signature = sig
+		documentAndAttestation.Attestation.Signature = sig
 
-		return doc, nil
+		return nil
 
 	case pb.KeyType_SOLANA:
 
 		decode := base58.Decode(privateKey)
 		data := []byte{}
 
-		for _, x := range doc.Authentication {
-			tmp, err := proto.Marshal(x)
-			if err != nil {
-				return nil, err
-			}
-			data = append(data, tmp...)
-		}
-		signature := ed25519.Sign(decode, append(data, []byte(doc.Id)...))
+		signature := ed25519.Sign(decode, data)
 
-		doc.Reference.Signature = base58.Encode(signature)
+		documentAndAttestation.Attestation.Signature = base58.Encode(signature)
 
-		return doc, nil
-
-		// TODO: implement arweave signing
-		// case pb.KeyType_ARWEAVE:
-
+		return nil
 	}
-	return nil, errors.New("doc signing switch failed")
+
+	return errors.New("doc signing switch failed")
 }

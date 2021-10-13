@@ -30,7 +30,7 @@ var genesisCmd = &cobra.Command{
 			panic(err)
 		}
 
-		genesis, err := composer.GenesisDoc(key)
+		genesis, err := composer.Genesis(key)
 		if err != nil {
 			panic(err)
 		}
@@ -46,8 +46,12 @@ var genesisCmd = &cobra.Command{
 				Value: "application/json",
 			},
 			{
-				Name:  "Operation",
-				Value: "GENESIS",
+				Name:  "Version",
+				Value: composer.VERSION,
+			},
+			{
+				Name:  "Address",
+				Value: key.PublicKey,
 			},
 		})
 		if err != nil {

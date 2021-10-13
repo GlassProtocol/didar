@@ -6,22 +6,33 @@ import (
 	pb "github.com/GlassProtocol/didar/protos/go"
 )
 
-func GenesisDoc(key *pb.Key) (*pb.Genesis, error) {
+const VERSION = "2021-10-12"
+
+func Genesis(key *pb.Key) (*pb.Genesis, error) {
 	return &pb.Genesis{
 		SigningKey: key,
 	}, nil
 }
 
-func Document(id string, prevDocId string, newKeys []*pb.Key, signingKey *pb.Key) (*pb.Document, error) {
-	doc := &pb.Document{
-		Context:        []string{"https://www.w3.org/ns/did/v1"},
-		Id:             fmt.Sprintf("did:ar:%s", id),
-		Authentication: newKeys,
-		Reference: &pb.Reference{
-			PreviousDocumentId: prevDocId,
-			SigningKey:         signingKey,
+func Didar(id string, appending string, newKeys []*pb.Key, signingKey *pb.Key, metadata map[string]string) (*pb.Didar, error) {
+
+	didar := &pb.Didar{
+		Version: VERSION,
+		Data: &pb.Didar_DocumentAndAttestation{
+			DocumentAndAttestation: &pb.DocumentAndAttestation{
+				Document: &pb.Document{
+					Context:        []string{"https://www.w3.org/ns/did/v1"},
+					Id:             fmt.Sprintf("did:ar:%s", id),
+					Authentication: newKeys,
+					Metadata:       metadata,
+				},
+				Attestation: &pb.Attestation{
+					Appending:  appending,
+					SigningKey: signingKey,
+				},
+			},
 		},
 	}
 
-	return doc, nil
+	return didar, nil
 }
