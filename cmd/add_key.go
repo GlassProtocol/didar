@@ -44,10 +44,7 @@ to quickly create a Cobra application.`,
 
 		newKeys = append(newKeys, signingKey)
 
-		doc, err := composer.Didar(genID, prevID, newKeys, signingKey, nil)
-		if err != nil {
-			panic(err)
-		}
+		doc := composer.Didar(genID, prevID, newKeys, signingKey, nil)
 
 		err = composer.SignDocument(doc, privateKey)
 		if err != nil {

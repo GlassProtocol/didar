@@ -57,26 +57,29 @@ For an IPFS alternative that is FAR MORE developed, be sure to check out our fri
 
 ---
 
-### Genesis Transactions
+### Genesis
 
 Every DID requires a uniquely generated ID. We opt to use a small data payload Arweave transaction to initialize an ID. The genesis transaction IS NOT A DID, but rather a precursor. The genesis document looks like such:
 
 ```json
 {
-  "signing_key":  {
-    "key_type":  "ETHEREUM",
-    "public_key":  "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
+  "version": "2021-10-12",
+  "genesis": {
+    "signing_key": {
+      "key_type": "ETHEREUM",
+      "public_key": "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
+    }
   }
 }
 ```
 
-Arweave ID: `xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88` 
+Arweave ID: `UxKu4zSAYPovRsu7hCepxpnmpE2GVORBX4U_udd8SwY` 
 
 
 **Tags**  
-Content-Type: `application/json`   
-`0xAbf798E220c6E44E4F8d720E8095E8dB230E9718` : `0xAbf798E220c6E44E4F8d720E8095E8dB230E9718`   
-`Data-Type` : `GENESIS`  
+`Content-Type`: `application/json`   
+`Version` : `Cal-Versioning`   
+`Address` : `0xAbf798E220c6E44E4F8d720E8095E8dB230E9718`   
 
 
 The genesis document contains the signing key that will be used to initialize the append only log.
@@ -92,41 +95,48 @@ To create a DID document, the genesis transaction is referenced in the DID docum
 
 ```json
 {
-  "context":  [
-    "https://www.w3.org/ns/did/v1"
-  ],
-  "id":  "did:ar:xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88",
-  "authentication":  [
-    {
-      "key_type":  "SOLANA",
-      "public_key":  "9jiixatNTBsLKAnfiv6BztccKai7UVWoEa1g6hKkWxvP"
+  "version": "2021-10-12",
+  "document_and_attestation": {
+    "document": {
+      "context": [
+        "https://www.w3.org/ns/did/v1"
+      ],
+      "id": "did:ar:UxKu4zSAYPovRsu7hCepxpnmpE2GVORBX4U_udd8SwY",
+      "authentication": [
+        {
+          "key_type": "SOLANA",
+          "public_key": "9jiixatNTBsLKAnfiv6BztccKai7UVWoEa1g6hKkWxvP"
+        },
+        {
+          "key_type": "ETHEREUM",
+          "public_key": "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
+        }
+      ],
+      "metadata": {}
     },
-    {
-      "key_type":  "ETHEREUM",
-      "public_key":  "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
+    "attestation": {
+      "appending": "UxKu4zSAYPovRsu7hCepxpnmpE2GVORBX4U_udd8SwY",
+      "signing_key": {
+        "key_type": "ETHEREUM",
+        "public_key": "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
+      },
+      "signature": "0x8b574b299a8f7c67081ae7254ddddbdccc750ed57aebe70b338fb125db38efa2420e2f0628154a059da8305f06be2eea4b68eedc842b7035156e671d264505fd00"
     }
-  ],
-  "reference":  {
-    "previous_document_id":  "xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88",
-    "signing_key":  {
-      "key_type":  "ETHEREUM",
-      "public_key":  "0xAbf798E220c6E44E4F8d720E8095E8dB230E9718"
-    },
-    "signature":  "0xebad66afc2572ad39bee572b222503a8d53a205b33858d8c2f7f274e422033400f093d3b8667974d59fabfd10e65d5a9798f939899900318d43ded18fca2e81d01"
   }
 }
 ```
 
-Arweave ID: `jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw`  
+Arweave ID: `n8x2zg6mLaE_RsH-Gz-t6qAinq5zPgbF5FxcwrtcziM`  
 
 
 **Tags**  
-Content-Type: `application/json`  
-Genesis-ID: `xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88`  
-Previous-ID: `xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88`  
-`Data-Type` : `DID`  
-`9jiixatNTBsLKAnfiv6BztccKai7UVWoEa1g6hKkWxvP` : `9jiixatNTBsLKAnfiv6BztccKai7UVWoEa1g6hKkWxvP`  
-`0xAbf798E220c6E44E4F8d720E8095E8dB230E9718` : `0xAbf798E220c6E44E4F8d720E8095E8dB230E9718`  
+`Content-Type`: `application/json`  
+`Version` : `Cal-Versioning`   
+`ID` : `UxKu4zSAYPovRsu7hCepxpnmpE2GVORBX4U_udd8SwY`  
+`Appending` : `UxKu4zSAYPovRsu7hCepxpnmpE2GVORBX4U_udd8SwY`    
+`Address` : `0xAbf798E220c6E44E4F8d720E8095E8dB230E9718`   
+`Address` : `9jiixatNTBsLKAnfiv6BztccKai7UVWoEa1g6hKkWxvP`   
+
 
 
 
@@ -173,47 +183,47 @@ $ go run main.go genesis --arweave-key YOUR_ARWEAVE_KEY.json
 > did:ar:xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
 
 ```
-$ go run main.go genesis --arweave-key YOUR_ARWEAVE_KEY.json
+$ go run main.go genesis --arweave-key ark.json 
 ✔ Ethereum
 Public Key: 0xAbf798E220c6E44E4F8d720E8095E8dB230E9718
-Tx data size: 0.000114MB 
-uplaodTx; body: OK, status: 200, txId: xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88 
+Tx data size: 0.000163MB 
+uplaodTx; body: OK, status: 200, txId: UxKu4zSAYPovRsu7hCepxpnmpE2GVORBX4U_udd8SwY 
 100.000000% completes, 1/1 
 
-GENESIS ID: xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
+DID: UxKu4zSAYPovRsu7hCepxpnmpE2GVORBX4U_udd8SwY
 
 
 
-$ go run main.go add-key --arweave-key YOUR_ARWEAVE_KEY.json
+$ go run main.go add-key --arweave-key ark.json
 ✔ Ethereum
 Public Key: 0xAbf798E220c6E44E4F8d720E8095E8dB230E9718
 Private Key: ****************************************************************
-Genesis ID: xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
-Previous ID (Genesis if that was last): xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
+Genesis ID: UxKu4zSAYPovRsu7hCepxpnmpE2GVORBX4U_udd8SwY
+Previous ID (Genesis if that was last): UxKu4zSAYPovRsu7hCepxpnmpE2GVORBX4U_udd8SwY
 ✔ Add Key
 ✔ Solana
 Public Key: 9jiixatNTBsLKAnfiv6BztccKai7UVWoEa1g6hKkWxvP
 ✔ Finalize
-Tx data size: 0.000711MB 
-uplaodTx; body: OK, status: 200, txId: jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw 
+Tx data size: 0.000863MB 
+uplaodTx; body: OK, status: 200, txId: n8x2zg6mLaE_RsH-Gz-t6qAinq5zPgbF5FxcwrtcziM 
 100.000000% completes, 1/1 
 
-NEW DOC: jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw
+NEW DOC: n8x2zg6mLaE_RsH-Gz-t6qAinq5zPgbF5FxcwrtcziM
 
 ```
 
-Genesis Data: https://arweave.net/xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
+Genesis Data: https://arweave.net/UxKu4zSAYPovRsu7hCepxpnmpE2GVORBX4U_udd8SwY
 
   
-Genesis Explorer: https://viewblock.io/arweave/tx/xrzz5rl5Nr8cj7nf_XbQKbbUVrOsV0xZB6O4Reuja88
+Genesis Explorer: https://viewblock.io/arweave/tx/UxKu4zSAYPovRsu7hCepxpnmpE2GVORBX4U_udd8SwY
 
 ---
   
 
-DID Doc: https://arweave.net/jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw
+DID Doc: https://arweave.net/n8x2zg6mLaE_RsH-Gz-t6qAinq5zPgbF5FxcwrtcziM
 
 
-DID Doc Explorer: https://viewblock.io/arweave/tx/jlGTTlQt3W5uDLZI6biidGq_neNV3LlQsfXc-JDhTFw
+DID Doc Explorer: https://viewblock.io/arweave/tx/n8x2zg6mLaE_RsH-Gz-t6qAinq5zPgbF5FxcwrtcziM
 
 
 # Feedback

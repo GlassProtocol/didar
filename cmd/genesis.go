@@ -30,10 +30,7 @@ var genesisCmd = &cobra.Command{
 			panic(err)
 		}
 
-		genesis, err := composer.Genesis(key)
-		if err != nil {
-			panic(err)
-		}
+		genesis := composer.Genesis(key)
 
 		jsonBytes, err := marshalOptions.Marshal(genesis)
 		if err != nil {
@@ -58,7 +55,7 @@ var genesisCmd = &cobra.Command{
 			panic(err)
 		}
 
-		fmt.Printf("\nGENESIS ID: %s\n", id)
+		fmt.Printf("\nDID: %s\n", id)
 	},
 }
 
