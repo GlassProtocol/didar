@@ -6,7 +6,7 @@ import (
 	pb "github.com/GlassProtocol/didar/protos/go"
 )
 
-const VERSION = "2021-10-12"
+const VERSION = "2021-10-27"
 
 func Genesis(key *pb.Key) *pb.Didar {
 	return &pb.Didar{

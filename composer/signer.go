@@ -43,7 +43,6 @@ func SignDocument(didar *pb.Didar, privateKey string) error {
 	case pb.KeyType_SOLANA:
 
 		decode := base58.Decode(privateKey)
-		data := []byte{}
 
 		signature := ed25519.Sign(decode, data)
 
